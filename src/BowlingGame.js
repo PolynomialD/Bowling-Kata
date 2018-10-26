@@ -7,10 +7,9 @@ class BowlingGame {
   }
 
   frameTotal (array) {
-    let total = array.filter((elem,index,self) => {
+    return array.filter((elem,index,self) => {
       return index == self.indexOf(elem)
-    })
-    return total.reduce((acc,num) => {return acc+num})
+    }).reduce((acc,num) => {return acc+num})
   }
 
   getScore () {
@@ -18,34 +17,35 @@ class BowlingGame {
     return flatScore.reduce((acc,num) => acc+num)
   }
 
+  thisFrame () {
+    return Math.floor(this.frame-1)
+  }
+
   addBonusesFromPreviousFrame(pins) {
-    let frame = Math.floor(this.frame-1)
     if(this.bonus > 2) {
-      this.score[frame].push(pins,pins)
+      this.score[this.thisFrame()].push(pins,pins)
       this.bonus -= 2
     } else { 
         if(this.bonus > 0) {
-          this.score[frame].push(pins)
+          this.score[this.thisFrame()].push(pins)
           this.bonus -= 1
         }
       }
   }
 
   calculateBonusesForNextFrame (pins) {
-    let frame = Math.floor(this.frame-1)
     if(this.frame < 10 && pins === 10) {
       this.bonus += 2
       this.frame += 0.5
     } else { 
-        if(this.frame < 10 && this.frameTotal(this.score[frame]) === 10) {
+        if(this.frame < 10 && this.frameTotal(this.score[this.thisFrame()]) === 10) {
           this.bonus += 1
         }
       }
   }
 
   roll (pins) {
-    let frame = Math.floor(this.frame-1)
-    this.score[frame].push(pins)
+    this.score[this.thisFrame()].push(pins)
     this.addBonusesFromPreviousFrame(pins)
     this.calculateBonusesForNextFrame (pins)
     if(this.frame < 10) this.frame += 0.5
