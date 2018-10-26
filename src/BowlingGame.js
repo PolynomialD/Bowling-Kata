@@ -5,12 +5,14 @@ class BowlingGame {
     this.frame = 1
     this.bonus = 0
   }
+
   frameTotal (array) {
     let total = array.filter((elem,index,self) => {
       return index == self.indexOf(elem)
     })
     return total.reduce((acc,num) => {return acc+num})
   }
+
   getScore () {
     let flatScore = this.score.reduce((acc,num) => {return acc.concat(num)})
     return flatScore.reduce((acc,num) => acc+num)
@@ -18,9 +20,7 @@ class BowlingGame {
 
   roll (pins) {
     let frame = Math.floor(this.frame-1)
-
     this.score[frame].push(pins)
-
     if(this.bonus > 2) {                        // add bonuses from previous frame
       this.score[frame].push(pins,pins)
       this.bonus -= 2
