@@ -5,6 +5,14 @@ class BowlingGame {
     this.frames = 1
     this.bonus = 0
   }
+
+  spareCheck (array) {
+    let frameTotal = array.filter((elem,index,self) => {
+      return index == self.indexOf(elem)
+    })
+    return frameTotal.reduce((a,n) => {return a+n})
+  }
+
   roll (pins) {
     console.log('frame', this.frames)
     console.log('bonus',this.bonus)
@@ -20,11 +28,11 @@ class BowlingGame {
         this.bonus -= 1
       }
     }
-    let frameTotal = this.score.reduce((a,n) => {return a.concat(n)}).reduce((a,n) => a+n)
+ 
     if(pins === 10) {
       this.bonus += 2;
       if(this.frames < 10) {this.frames += 0.5}
-    } else { if(frameTotal === 10) {
+    } else { if(this.spareCheck(this.score[frame]) === 10) {
       this.bonus += 1
       }
     }
