@@ -29,10 +29,10 @@ class BowlingGame {
       }
     }
  
-    if(pins === 10) {
+    if(pins === 10 && this.frames !== 10) {
       this.bonus += 2;
       if(this.frames < 10) {this.frames += 0.5}
-    } else { if(this.spareCheck(this.score[frame]) === 10) {
+    } else { if(this.spareCheck(this.score[frame]) === 10 && this.frames !== 10) {
       this.bonus += 1
       }
     }
