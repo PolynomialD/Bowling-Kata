@@ -18,10 +18,9 @@ class BowlingGame {
     return flatScore.reduce((acc,num) => acc+num)
   }
 
-  roll (pins) {
+  addBonusesFromPreviousFrame(pins) {
     let frame = Math.floor(this.frame-1)
-    this.score[frame].push(pins)
-    if(this.bonus > 2) {                        // add bonuses from previous frame
+    if(this.bonus > 2) {
       this.score[frame].push(pins,pins)
       this.bonus -= 2
     } else { 
@@ -30,7 +29,11 @@ class BowlingGame {
           this.bonus -= 1
         }
       }
-    if(this.frame < 10 && pins === 10) {     // calculate bonuses for next frame
+  }
+
+  calculateBonusesForNextFrame (pins) {
+    let frame = Math.floor(this.frame-1)
+    if(this.frame < 10 && pins === 10) {
       this.bonus += 2
       this.frame += 0.5
     } else { 
@@ -38,6 +41,13 @@ class BowlingGame {
           this.bonus += 1
         }
       }
+  }
+
+  roll (pins) {
+    let frame = Math.floor(this.frame-1)
+    this.score[frame].push(pins)
+    this.addBonusesFromPreviousFrame(pins)
+    this.calculateBonusesForNextFrame (pins)
     if(this.frame < 10) this.frame += 0.5
   }
 }
